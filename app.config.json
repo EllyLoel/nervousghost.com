@@ -1,0 +1,11 @@
+{
+  "locales": [
+    {
+      "locale": "en",
+      "displayName": "en",
+      "appLanguage": "en-AU",
+      "crystallizeCatalogueLanguage": "en",
+      "crystallizePriceVariant": "default"
+    }
+  ]
+}
