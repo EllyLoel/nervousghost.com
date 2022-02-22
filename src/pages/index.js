@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import styled from 'styled-components';
 
 import { ThemeContext } from '../components/theme-context';
-import styled from 'styled-components';
 import GlobalStyle from 'ui/global';
-import { SiTwitter, SiInstagram, SiTiktok, SiYoutube } from 'react-icons/si';
+import ThemeToggle from '../components/layout/header/theme-toggle';
+import Newsletter from 'components/newsletter';
+import SocialBar from 'components/social';
 
 const Main = styled.main`
   height: 100vh;
@@ -14,6 +16,14 @@ const Main = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-image: url("/static/bg-${({ colorMode }) => colorMode}.png");
+  background-size: cover;
+`;
+
+const ThemeToggleWrapper = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 `;
 
 const Logo = styled.img`
@@ -35,27 +45,29 @@ const A = styled.a`
   text-decoration: none;
 `;
 
-const SocialLink = styled.a`
-  border-radius: 0.375em;
-  padding: 0.5em;
-  &:hover {
-    background: #efefef;
-  }
-  & > svg {
-    display: block;
-  }
-`;
-
-const SocialBar = styled.div`
+const SocialBarWrapper = styled.div`
   display: flex;
 `;
 
 const LandingPage = () => {
+  const newsletterRef = useRef(null);
+  const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
   const { colorMode, setColorMode } = React.useContext(ThemeContext);
+
   const img = `/static/logo-${colorMode}.png`;
+
+  useEffect(() => {
+    if (isNewsletterOpen) {
+      newsletterRef.current.focus();
+    }
+  }, [isNewsletterOpen]);
+
   return (
-    <Main>
+    <Main colorMode={colorMode}>
       <GlobalStyle />
+      <ThemeToggleWrapper>
+        <ThemeToggle />
+      </ThemeToggleWrapper>
       <Logo src={img} alt="nervous ghost logo" />
       <Links>
         <Link href="/portfolio" passHref>
@@ -64,32 +76,23 @@ const LandingPage = () => {
         <Link href="/shop" passHref>
           <A>Shop</A>
         </Link>
-        <Link href="/shop" passHref>
-          <A>Newsletter</A>
-        </Link>
+        <button
+          onClick={() => {
+            setIsNewsletterOpen(true);
+          }}
+        >
+          Newsletter
+        </button>
       </Links>
-      <SocialBar>
-        <Link href="https://www.twitter.com/nervousgh0st" passHref>
-          <SocialLink target="_blank">
-            <SiTwitter />
-          </SocialLink>
-        </Link>
-        <Link href="https://www.instagram.com/nervousgh0st/" passHref>
-          <SocialLink target="_blank">
-            <SiInstagram />
-          </SocialLink>
-        </Link>
-        <Link href="https://www.tiktok.com/@nervousgh0st" passHref>
-          <SocialLink target="_blank">
-            <SiTiktok />
-          </SocialLink>
-        </Link>
-        <Link href="https://www.youtube.com/nervousghost" passHref>
-          <SocialLink target="_blank">
-            <SiYoutube />
-          </SocialLink>
-        </Link>
-      </SocialBar>
+      <SocialBarWrapper>
+        <SocialBar />
+      </SocialBarWrapper>
+      {isNewsletterOpen && (
+        <Newsletter
+          forwardedRef={newsletterRef}
+          setIsNewsletterOpen={setIsNewsletterOpen}
+        />
+      )}
     </Main>
   );
 };

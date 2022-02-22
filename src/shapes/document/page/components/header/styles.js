@@ -5,15 +5,11 @@ import { responsive } from 'ui';
 export const Header = styled.div`
   font-size: 20px;
   margin-bottom: 50px;
-
-  ${responsive.mdPlus} {
-    display: grid;
-    grid-template-columns: minmax(600px, 1000px) minmax(300px, 1fr);
-  }
 `;
 
 export const HeaderInner = styled.div`
   ${responsive.smPlus} {
+    width: max-content;
     max-width: 800px;
   }
 
