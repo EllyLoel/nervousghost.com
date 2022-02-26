@@ -42,7 +42,7 @@
     "@react-aria/interactions": "^3.7.0",
     "@stripe/react-stripe-js": "1.1.2",
     "@stripe/stripe-js": "1.8.0",
-    "immer": "8.0.1",
+    "immer": "9.0.6",
     "jsonwebtoken": "8.5.1",
     "lodash": "4.17.15",
     "next": "12.1.0",
